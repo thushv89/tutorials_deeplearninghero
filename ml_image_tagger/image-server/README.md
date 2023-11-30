@@ -10,20 +10,29 @@ To implement most of the services we'll be using Java and the [Spring Framework]
 
 ## Testing in the local environment
 
-1. Grant the service account token creator role on the user:
+1. Make sure you're authenticated and in the correct project
+`gcloud auth login`
+`gcloud config set project <project-id>`
+
+2. Grant the service account token creator role on the user:
 
 `gcloud iam service-accounts add-iam-policy-binding  <service account> --member=user:<user account> --role=roles/iam.serviceAccountTokenCreator --format=json`
 
-2. Authenticate the client library to impersonate the service account
+3. Authenticate the client library to impersonate the service account
 
 `gcloud auth application-default login --impersonate-service-account <service account>`
 
-3. Build the maven project
-4. Run the webserver
-5. Make a request:
+4. Build the maven project
+5. Run the webserver
+6. Make a request:
 
 `echo "$(base64 -w 0 <path to image>)" | curl -X POST -H "Content-Type: application/json" -d @- http://localhost:8080/upload_image`
 
-6. Remember to revoke the ADC credentials after the project
+7. Remember to revoke the ADC credentials after the project
 
 `gcloud auth application-default revoke`
+
+
+## Attribution
+
+I'm grateful to the Google ML developer program for supporting this with GCP credits.
